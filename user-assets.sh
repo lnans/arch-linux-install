@@ -11,12 +11,12 @@ bash ${DIR}/wallpaper/install.sh
 
 echo '# Installing themes'
 cd ${DIR}/themes/Orchis-theme
-./install.sh -t all
+sudo ./install.sh -t all
 
 cd ${DIR}/themes/Tela-circle-icon-theme
-./install.sh -a
+sudo ./install.sh -a
 
 cd ${DIR}/themes/Vimix-cursors
-./install.sh
+sudo ./install.sh
 
 cd ~
