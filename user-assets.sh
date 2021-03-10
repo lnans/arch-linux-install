@@ -1,15 +1,15 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo '# Installing extensions ...'
-.${DIR}/extensions/install.sh
+bash ${DIR}/extensions/install.sh
 
 echo '# Installing fonts...'
-.${DIR}/fonts/install.sh
+bash ${DIR}/fonts/install.sh
 
 echo '# Installing wallpapers'
-.${DIR}/wallpapers/install.sh
+bash ${DIR}/wallpapers/install.sh
 
 echo '# Installing themes'
-.${DIR}/themes/Orchis-theme/install.sh -t all
-.${DIR}/themes/Tela-circle-icon-theme/install.sh -a
-.${DIR}/themes/Vimix-cursors/install.sh
+bash ${DIR}/themes/Orchis-theme/install.sh -t all
+bash ${DIR}/themes/Tela-circle-icon-theme/install.sh -a
+bash ${DIR}/themes/Vimix-cursors/install.sh
