@@ -7,7 +7,7 @@ echo '# Installing fonts...'
 bash ${DIR}/fonts/install.sh
 
 echo '# Installing wallpapers'
-bash ${DIR}/wallpapers/install.sh
+bash ${DIR}/wallpaper/install.sh
 
 echo '# Installing themes'
 cd ${DIR}/themes/Orchis-theme
