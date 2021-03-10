@@ -1,3 +1,10 @@
+#/bin/bash
+
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 echo '# Installing extensions ...'
@@ -11,12 +18,12 @@ bash ${DIR}/wallpaper/install.sh
 
 echo '# Installing themes'
 cd ${DIR}/themes/Orchis-theme
-sudo ./install.sh -t all
+./install.sh -t all
 
 cd ${DIR}/themes/Tela-circle-icon-theme
-sudo ./install.sh -a
+./install.sh -a
 
 cd ${DIR}/themes/Vimix-cursors
-sudo ./install.sh
+./install.sh
 
 cd ~
