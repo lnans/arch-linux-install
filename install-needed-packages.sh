@@ -1,1 +1,0 @@
-sudo pacman -S gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc
