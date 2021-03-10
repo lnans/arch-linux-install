@@ -10,6 +10,13 @@ echo '# Installing wallpapers'
 bash ${DIR}/wallpapers/install.sh
 
 echo '# Installing themes'
-bash ${DIR}/themes/Orchis-theme/install.sh -t all
-bash ${DIR}/themes/Tela-circle-icon-theme/install.sh -a
-bash ${DIR}/themes/Vimix-cursors/install.sh
+cd ${DIR}/themes/Orchis-theme
+./install.sh -t all
+
+cd ${DIR}/themes/Tela-circle-icon-theme
+./install.sh -a
+
+cd ${DIR}/themes/Vimix-cursors
+./install.sh
+
+cd ~
