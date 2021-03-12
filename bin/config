@@ -1,11 +1,11 @@
 #!/bin/bash
 
 function update() {
-  pacman -Syu --noconfirm > $LOG_PKG_FILE
+  pacman -Syu --noconfirm &> $LOG_PKG_FILE
 }
 
 function install() {
-  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc > $LOG_PKG_FILE
+  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -32,13 +32,13 @@ function configure_users() {
 }
 
 function configure_boot() {
-  mkdir /boot/EFI > $LOG_FILE
-  mount /dev/sda1 /boot/EFI > $LOG_FILE
-  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck > $LOG_FILE
-  grub-mkconfig -o /boot/grub/grub.cfg > $LOG_FILE
+  mkdir /boot/EFI &> $LOG_FILE
+  mount /dev/sda1 /boot/EFI &> $LOG_FILE
+  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck &> $LOG_FILE
+  grub-mkconfig -o /boot/grub/grub.cfg &> $LOG_FILE
 }
 
 function enable_services() {
-  systemctl enable NetworkManager > $LOG_FILE
-  systemctl enable gdm.service > $LOG_FILE
+  systemctl enable NetworkManager &> $LOG_FILE
+  systemctl enable gdm.service &> $LOG_FILE
 }
