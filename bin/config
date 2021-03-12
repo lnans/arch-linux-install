@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function configure_locales() {
+  ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+  hwclock --systohc
+  sed -i 's/#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
+  locale-gen
+  echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
+}
+
+function configure_host() {
+  echo $HOSTNAME_INSTALL > /etc/hostname
+  echo "127.0.0.1    localhost" > /etc/hosts
+  echo "::1          localhost" >> /etc/hosts
+  echo "127.0.0.1    ${HOSTNAME_INSTALL}.localdomain ${HOSTNAME_INSTALL}" >> /etc/hosts
+}
+
+function configure_users() {
+  echo $ROOT_PWD | passwd --stdin
+  useradd -m $USER_INSTALL
+  echo $USER_PWD | passwd $USER_INSTALL --stdin
+  usermod -aG wheel,audio,video,optical,storage $USER_INSTALL
+  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+}
+
+function configure_boot() {
+  mkdir /boot/EFI
+  mount /dev/sda1 /boot/EFI
+  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck
+  grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+function enable_services() {
+  systemctl enable NetworkManager
+  systemctl enable gdm.service
+}

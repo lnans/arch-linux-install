@@ -1,7 +1,7 @@
 #/bin/bash
 
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+if [ "$EUID" -eq 0 ]
+  then echo "Please do not run as root, root will be ask later"
   exit
 fi
 BGreen='\033[1;32m' # Color green
