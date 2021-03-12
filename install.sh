@@ -2,6 +2,8 @@
 
 # Define global vars
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+export LOG_FILE=$DIR/install.log
+export LOG_PKG_FILE=$DIR/install.packages.log
 export COLOR_NORMAL='\033[0m'
 export COLOR_BOLD='\033[1m'
 export COLOR_GREEN='\033[1;32m'
@@ -48,30 +50,30 @@ export ROOT_PWD_VERIF
 printf "\n\n\t${COLOR_BOLD}INSTALLATION START${COLOR_NORMAL}\n\n"
 
 printf "${COLOR_BOLD}\n# Updating packages${COLOR_NORMAL}\t"
-spinner pacman -Syu --noconfirm
+spinner pacman -Syu --noconfirm > $LOG_PKG_FILE
 
 printf "${COLOR_BOLD}# Installing packages${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner pacman -S --noconfirm vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc
+spinner pacman -S --noconfirm vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc > $LOG_PKG_FILE
 
 printf "${COLOR_BOLD}# Configure locales${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner configure_locales
+spinner configure_locales > $LOG_FILE
 
 printf "${COLOR_BOLD}# Configure host${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner configure_host
+spinner configure_host > $LOG_FILE
 
 printf "${COLOR_BOLD}# Configure users${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner configure_users
+spinner configure_users > $LOG_FILE
 
 printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner configure_boot
+spinner configure_boot > $LOG_FILE
 
 printf "${COLOR_BOLD}# Enable services${COLOR_NORMAL}\t"
 spinner sleep 1
-spinner enable_services
+spinner enable_services > $LOG_FILE
 
 printf "\n\n\t${COLOR_GREEN}INSTALLATION DONE${COLOR_NORMAL}\n\n"
