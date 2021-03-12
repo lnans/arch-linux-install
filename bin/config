@@ -5,7 +5,7 @@ function update() {
 }
 
 function install() {
-  pacman -S --noconfirm --needed ls /var  vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
+  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
