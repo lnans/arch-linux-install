@@ -1,10 +1,18 @@
 #!/bin/bash
 
+function update() {
+  pacman -Syu --noconfirm > $LOG_PKG_FILE
+}
+
+function install() {
+  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc > $LOG_PKG_FILE
+}
+
 function configure_locales() {
   ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
   hwclock --systohc
   sed -i 's/#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
-  locale-gen
+  locale-gen > $LOG_FILE
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
 }
 
@@ -16,21 +24,21 @@ function configure_host() {
 }
 
 function configure_users() {
-  echo root:$ROOT_PWD | chpasswd
-  useradd -m $USER_INSTALL
-  echo $USER_INSTALL:$USER_PWD | chpasswd
-  usermod -aG wheel,audio,video,optical,storage $USER_INSTALL
-  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
+  echo root:$ROOT_PWD | chpasswd > $LOG_FILE
+  useradd -m $USER_INSTALL > $LOG_FILE
+  echo $USER_INSTALL:$USER_PWD | chpasswd > $LOG_FILE
+  usermod -aG wheel,audio,video,optical,storage $USER_INSTALL > $LOG_FILE
+  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
 }
 
 function configure_boot() {
-  mkdir /boot/EFI
-  mount /dev/sda1 /boot/EFI 2> $LOG_ERROR_FILE 1> $LOG_FILE
-  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck 2> $LOG_ERROR_FILE 1> $LOG_FILE
-  grub-mkconfig -o /boot/grub/grub.cfg 2> $LOG_ERROR_FILE 1> $LOG_FILE
+  mkdir /boot/EFI > $LOG_FILE
+  mount /dev/sda1 /boot/EFI > $LOG_FILE
+  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck > $LOG_FILE
+  grub-mkconfig -o /boot/grub/grub.cfg > $LOG_FILE
 }
 
 function enable_services() {
-  systemctl enable NetworkManager 2> $LOG_ERROR_FILE 1> $LOG_FILE
-  systemctl enable gdm.service 2> $LOG_ERROR_FILE 1> $LOG_FILE
+  systemctl enable NetworkManager > $LOG_FILE
+  systemctl enable gdm.service > $LOG_FILE
 }

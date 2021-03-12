@@ -3,7 +3,6 @@
 # Define global vars
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 export LOG_FILE=$DIR/install.log
-export LOG_ERROR_FILE=$DIR/install.error.log
 export LOG_PKG_FILE=$DIR/install.packages.log
 export COLOR_NORMAL='\033[0m'
 export COLOR_BOLD='\033[1m'
@@ -51,24 +50,24 @@ export ROOT_PWD_VERIF
 printf "\n\n\t${COLOR_BOLD}INSTALLATION START${COLOR_NORMAL}\n\n"
 
 printf "${COLOR_BOLD}\n# Updating packages${COLOR_NORMAL}\t"
-spinner pacman -Syu --noconfirm 2> $LOG_ERROR_FILE 1> $LOG_PKG_FILE
+spinner update
 
 printf "${COLOR_BOLD}# Installing packages${COLOR_NORMAL}\t"
-spinner pacman -S --noconfirm vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc  2> $LOG_ERROR_FILE 1> $LOG_PKG_FILE
+spinner install
 
 printf "${COLOR_BOLD}# Configure locales${COLOR_NORMAL}\t"
-spinner configure_locales 2> $LOG_ERROR_FILE 1> $LOG_FILE
+spinner configure_locales
 
 printf "${COLOR_BOLD}# Configure host${COLOR_NORMAL}\t"
-spinner configure_host 2> $LOG_ERROR_FILE 1> $LOG_FILE
+spinner configure_host
 
 printf "${COLOR_BOLD}# Configure users${COLOR_NORMAL}\t"
-spinner configure_users 2> $LOG_ERROR_FILE 1> $LOG_FILE
+spinner configure_users
 
 printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
-spinner configure_boot 2> $LOG_ERROR_FILE 1> $LOG_FILE
+spinner configure_boot
 
 printf "${COLOR_BOLD}# Enable services${COLOR_NORMAL}\t"
-spinner enable_services 2> $LOG_ERROR_FILE 1> $LOG_FILE
+spinner enable_services
 
 printf "\n\n\t${COLOR_GREEN}INSTALLATION DONE${COLOR_NORMAL}\n\n"
