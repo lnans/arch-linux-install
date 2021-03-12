@@ -16,9 +16,9 @@ function configure_host() {
 }
 
 function configure_users() {
-  echo $ROOT_PWD | passwd --stdin
+  echo root:$ROOT_PWD | chpasswd
   useradd -m $USER_INSTALL
-  echo $USER_PWD | passwd $USER_INSTALL --stdin
+  echo $USER_INSTALL:$USER_PWD | chpasswd
   usermod -aG wheel,audio,video,optical,storage $USER_INSTALL
   sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 }
