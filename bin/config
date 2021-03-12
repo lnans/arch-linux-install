@@ -5,7 +5,7 @@ function update() {
 }
 
 function install() {
-  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
+  pacman -S --noconfirm --needed ls /var  vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -14,6 +14,7 @@ function configure_locales() {
   sed -i 's/#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
   locale-gen > $LOG_FILE
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
+  gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'fr+azerty')]"
 }
 
 function configure_host() {
@@ -24,11 +25,16 @@ function configure_host() {
 }
 
 function configure_users() {
+  # Create user and set passwords + sudoers
   echo root:$ROOT_PWD | chpasswd > $LOG_FILE
   useradd -m $USER_INSTALL > $LOG_FILE
   echo $USER_INSTALL:$USER_PWD | chpasswd > $LOG_FILE
   usermod -aG wheel,audio,video,optical,storage $USER_INSTALL > $LOG_FILE
   sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
+
+  # Create accounts service for user
+  cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
+  chmod 644 /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
 }
 
 function configure_boot() {
