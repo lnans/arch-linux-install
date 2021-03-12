@@ -43,34 +43,35 @@ export USER_PWD_VERIF
 export ROOT_PWD
 export ROOT_PWD_VERIF
 
+# Start installation
+
 printf "\n\n\t${COLOR_BOLD}INSTALLATION START${COLOR_NORMAL}\n\n"
 
 printf "${COLOR_BOLD}\n# Updating packages${COLOR_NORMAL}\t"
-spinner sleep 1
-# spinner pacman -Syu --noconfirm
+spinner pacman -Syu --noconfirm
 
 printf "${COLOR_BOLD}# Installing packages${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner pacman -S --noconfirm vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc
+spinner pacman -S --noconfirm vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc
 
 printf "${COLOR_BOLD}# Configure locales${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner configure_locales
+spinner configure_locales
 
 printf "${COLOR_BOLD}# Configure host${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner configure_host
+spinner configure_host
 
 printf "${COLOR_BOLD}# Configure users${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner configure_users
+spinner configure_users
 
 printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner configure_boot
+spinner configure_boot
 
 printf "${COLOR_BOLD}# Enable services${COLOR_NORMAL}\t"
 spinner sleep 1
-# spinner enable_services
+spinner enable_services
 
 printf "\n\n\t${COLOR_GREEN}INSTALLATION DONE${COLOR_NORMAL}\n\n"
