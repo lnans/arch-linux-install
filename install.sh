@@ -43,7 +43,10 @@ export USER_PWD_VERIF
 export ROOT_PWD
 export ROOT_PWD_VERIF
 
+printf "\n\n\t${COLOR_BOLD}INSTALLATION START${COLOR_NORMAL}\n\n"
+
 printf "${COLOR_BOLD}\n# Updating packages${COLOR_NORMAL}\t"
+spinner sleep 1
 # spinner pacman -Syu --noconfirm
 
 printf "${COLOR_BOLD}# Installing packages${COLOR_NORMAL}\t"
