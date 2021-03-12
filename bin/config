@@ -14,7 +14,7 @@ function configure_locales() {
   sed -i 's/#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
   locale-gen > $LOG_FILE
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
-  gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'fr+azerty')]"
+  su $USER_INSTALL -c $'gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
 }
 
 function configure_host() {

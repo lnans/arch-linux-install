@@ -46,6 +46,7 @@ export ROOT_PWD
 export ROOT_PWD_VERIF
 
 # Start installation
+clear
 
 printf "\n\n\t${COLOR_BOLD}INSTALLATION START${COLOR_NORMAL}\n\n"
 
