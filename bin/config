@@ -25,12 +25,12 @@ function configure_users() {
 
 function configure_boot() {
   mkdir /boot/EFI
-  mount /dev/sda1 /boot/EFI
-  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck
-  grub-mkconfig -o /boot/grub/grub.cfg
+  mount /dev/sda1 /boot/EFI 2> $LOG_ERROR_FILE 1> $LOG_FILE
+  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck 2> $LOG_ERROR_FILE 1> $LOG_FILE
+  grub-mkconfig -o /boot/grub/grub.cfg 2> $LOG_ERROR_FILE 1> $LOG_FILE
 }
 
 function enable_services() {
-  systemctl enable NetworkManager
-  systemctl enable gdm.service
+  systemctl enable NetworkManager 2> $LOG_ERROR_FILE 1> $LOG_FILE
+  systemctl enable gdm.service 2> $LOG_ERROR_FILE 1> $LOG_FILE
 }
