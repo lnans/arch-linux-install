@@ -15,7 +15,9 @@ function configure_locales() {
 
   # Lang and Encoding
   sed -i "s/#${INSTALL_LANG} ${INSTALL_ENC}/${INSTALL_LANG} ${INSTALL_ENC}/" /etc/locale.gen
+  sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
   locale-gen > $LOG_FILE
+  su $USER_INSTALL -c "sudo locale-gen"
 
   # Keymaps
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
@@ -23,6 +25,8 @@ function configure_locales() {
 
   # $HOME directories
   su $USER_INSTALL -c "LANG=${INSTALL_LANG}; xdg-user-dirs-update --force"
+
+  sed -i 's/%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 }
 
 function configure_host() {
