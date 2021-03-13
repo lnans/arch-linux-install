@@ -60,3 +60,8 @@ function enable_services() {
   systemctl enable NetworkManager &> $LOG_FILE
   systemctl enable gdm.service &> $LOG_FILE
 }
+
+function configure_wallpapers() {
+  cp ${DIR}/wallpapers /home/${USER_INSTALL}/Wallpapers
+  su $USER_INSTALL -c "sudo -u nans dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/mountains.jpg'"
+}
