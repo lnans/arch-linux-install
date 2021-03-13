@@ -15,7 +15,7 @@ function configure_locales() {
   locale-gen > $LOG_FILE
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
 
-  su $USER_INSTALL -c $'sudo -u nans gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
+  su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
   echo "fr_FR" > /home/$USER_INSTALL/.config/user-dirs.locale
   chown -R $USER_INSTALL:$USER_INSTALL /home/$USER_INSTALL/.config
   su $USER_INSTALL -c "xdg-user-dirs-update"
