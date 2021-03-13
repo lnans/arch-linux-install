@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Define global vars
+export INSTALL_LANG='fr_FR.UTF-8'
+export INSTALL_ENC='UTF-8'
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 export LOG_FILE=$DIR/install.log
 export LOG_PKG_FILE=$DIR/install.packages.log
