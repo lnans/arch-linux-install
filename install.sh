@@ -70,6 +70,9 @@ spinner configure_locales
 printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
 spinner configure_boot
 
+printf "${COLOR_BOLD}# Configure Desktop${COLOR_NORMAL}\t"
+spinner configure_wallpapers
+
 printf "${COLOR_BOLD}# Enable services${COLOR_NORMAL}\t"
 spinner enable_services
 
