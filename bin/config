@@ -16,9 +16,9 @@ function configure_locales() {
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
 
   su $USER_INSTALL -c $'sudo -u nans gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
-  su $USER_INSTALL -c 'localectl set-locale fr_FR.UTF-8'
-  su $USER_INSTALL -c 'localectl set-keymap fr-latin1'
-  su $USER_INSTALL -c 'localectl set-x11-keymap fr fr'
+  echo "fr_FR" > /home/$USER_INSTALL/.config/user-dirs.locale
+  chown -R $USER_INSTALL:$USER_INSTALL /home/$USER_INSTALL/.config
+  su $USER_INSTALL -c "xdg-user-dirs-update"
 }
 
 function configure_host() {
