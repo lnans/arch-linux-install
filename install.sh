@@ -56,14 +56,14 @@ spinner update
 printf "${COLOR_BOLD}# Installing packages${COLOR_NORMAL}\t"
 spinner install
 
-printf "${COLOR_BOLD}# Configure locales${COLOR_NORMAL}\t"
-spinner configure_locales
-
 printf "${COLOR_BOLD}# Configure host${COLOR_NORMAL}\t"
 spinner configure_host
 
 printf "${COLOR_BOLD}# Configure users${COLOR_NORMAL}\t"
 spinner configure_users
+
+printf "${COLOR_BOLD}# Configure locales${COLOR_NORMAL}\t"
+spinner configure_locales
 
 printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
 spinner configure_boot
