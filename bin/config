@@ -9,15 +9,24 @@ function install() {
 }
 
 function configure_locales() {
+  # TimeZone
   ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
   hwclock --systohc
+
+  # Encoding
   sed -i 's/#fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen
   locale-gen > $LOG_FILE
-  echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
 
+  # Keymaps
+  echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
-  echo "fr_FR" > /home/$USER_INSTALL/.config/user-dirs.locale
+
+  # $HOME directories
+  mkdir -p /home/$USER_INSTALL/.config
+  cp ${DIR}/config/user-dirs.dirs /home/$USER_INSTALL/.config
+  cp ${DIR}/config/user-dirs.locale /home/$USER_INSTALL/.config
   chown -R $USER_INSTALL:$USER_INSTALL /home/$USER_INSTALL/.config
+  chmod -R 644 /home/$USER_INSTALL/.config
   su $USER_INSTALL -c "xdg-user-dirs-update"
 }
 
