@@ -5,7 +5,7 @@ function update() {
 }
 
 function install() {
-  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk jq curl gtk-engine-murrine sassc &> $LOG_PKG_FILE
+  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk curl bash-completion ttf-roboto ttf-roboto-mono &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -15,18 +15,15 @@ function configure_locales() {
 
   # Lang and Encoding
   sed -i "s/#${INSTALL_LANG} ${INSTALL_ENC}/${INSTALL_LANG} ${INSTALL_ENC}/" /etc/locale.gen
-  sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+  echo ${INSTALL_LANG} > /etc/locale.conf
   locale-gen > $LOG_FILE
-  su $USER_INSTALL -c "sudo locale-gen" > $LOG_FILE
 
   # Keymaps
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
 
   # $HOME directories
-  su $USER_INSTALL -c "LANG=${INSTALL_LANG}; xdg-user-dirs-update --force"
-
-  sed -i 's/%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+  su $USER_INSTALL -c "source ~/.bashrc; xdg-user-dirs-update"
 }
 
 function configure_host() {
@@ -43,6 +40,15 @@ function configure_users() {
   echo $USER_INSTALL:$USER_PWD | chpasswd > $LOG_FILE
   usermod -aG wheel,audio,video,optical,storage $USER_INSTALL > $LOG_FILE
   sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
+
+  # User profile
+  mv -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
+  chmod 644 /home/${USER_INSTALL}/.bashrc
+  chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
+
+  # Root profile
+  mv -f ${DIR}/config/.bashrc /root/.bashrc
+  source ~/.bashrc
 
   # Create accounts service for user
   cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
@@ -64,4 +70,15 @@ function enable_services() {
 function configure_wallpapers() {
   cp -r ${DIR}/wallpapers /home/${USER_INSTALL}/Wallpapers
   su $USER_INSTALL -c "sudo -u nans dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/mountains.jpg'"
+}
+
+function configure_extensions() {
+  local FILES=${DIR}/extensions/*.zip
+  for file in $FILES
+  do
+    UUID=$(unzip -c $file metadata.json | grep uuid | cut -d \" -f4)
+    mkdir -p /home/${USER}/.local/share/gnome-shell/extensions/${UUID}
+    unzip -q ${file} -d ~/.local/share/gnome-shell/extensions/${UUID}/
+    chown -R ${USER}:${USER} /home/${USER}/.local
+  done
 }
