@@ -12,7 +12,7 @@ function configure_locales() {
   # TimeZone
   ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
   hwclock --systohc
-  su ${USER_INSTALL} -c "timedatectl set-ntp true"
+  timedatectl set-ntp true
 
   # Lang and Encoding
   sed -i "s/#${INSTALL_LANG} ${INSTALL_ENC}/${INSTALL_LANG} ${INSTALL_ENC}/" /etc/locale.gen
@@ -22,7 +22,7 @@ function configure_locales() {
   # Keymaps: TODO use var for nans user
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
-  su gdm -c $'sudo -u gdm dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
+  sudo -u gdm dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'fr+azerty')]"
 
   # $HOME directories
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
