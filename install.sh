@@ -47,6 +47,10 @@ export USER_PWD_VERIF
 export ROOT_PWD
 export ROOT_PWD_VERIF
 
+# Root profile
+cp -f ${DIR}/config/.bashrc ~/.bashrc
+source ~/.bashrc
+
 # Start installation
 clear
 
