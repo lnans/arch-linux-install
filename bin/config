@@ -23,7 +23,7 @@ function configure_locales() {
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
 
   # $HOME directories
-  su $USER_INSTALL -c "source ~/.bashrc; xdg-user-dirs-update"
+  su $USER_INSTALL -c "source /home/${USER_INSTALL}/.bashrc; xdg-user-dirs-update"
 }
 
 function configure_host() {
@@ -42,12 +42,12 @@ function configure_users() {
   sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
 
   # User profile
-  mv -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
+  cp -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
   chmod 644 /home/${USER_INSTALL}/.bashrc
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
 
   # Root profile
-  mv -f ${DIR}/config/.bashrc /root/.bashrc
+  cp -f ${DIR}/config/.bashrc ~/.bashrc
   source ~/.bashrc
 
   # Create accounts service for user
@@ -77,8 +77,8 @@ function configure_extensions() {
   for file in $FILES
   do
     UUID=$(unzip -c $file metadata.json | grep uuid | cut -d \" -f4)
-    mkdir -p /home/${USER}/.local/share/gnome-shell/extensions/${UUID}
-    unzip -q ${file} -d ~/.local/share/gnome-shell/extensions/${UUID}/
+    mkdir -p /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}
+    unzip -q ${file} -d /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}/
     chown -R ${USER}:${USER} /home/${USER}/.local
   done
 }
