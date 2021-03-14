@@ -65,6 +65,7 @@ function enable_services() {
 
 function configure_wallpapers() {
   cp -r ${DIR}/wallpapers /home/${USER_INSTALL}/Wallpapers
+  chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/Wallpapers
   su $USER_INSTALL -c "sudo -u nans dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/mountains.jpg'"
 }
 
