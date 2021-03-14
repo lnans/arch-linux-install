@@ -19,10 +19,14 @@ function configure_locales() {
   echo ${INSTALL_LANG} > /etc/locale.conf
   locale-gen > $LOG_FILE
 
-  # Keymaps: TODO use var for nans user
+  # Keymaps for tty and Desktop: TODO use var for nans user
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
-  sudo -u gdm dbus-launch gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'fr+azerty')]"
+
+  # Keymaps for X11
+  localectl set-locale ${INSTALL_LANG}
+  localectl set-keymap ${KBD_MAP}
+  localectl set-x11-keymap ${KBD_LAYOUT} pc104 ${KBD_VAR}
 
   # $HOME directories
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
