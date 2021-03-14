@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 alias ls='ls --color=auto'
-alias ll='ls -lasFH --color=auto'
+alias ll='ls -lGAvFH --color=auto --group-directories-first'
 alias gs="git status -sb"
 alias gl='git log --oneline --all --graph --decorate'
 

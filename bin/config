@@ -12,15 +12,17 @@ function configure_locales() {
   # TimeZone
   ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
   hwclock --systohc
+  su ${USER_INSTALL} -c "timedatectl set-ntp true"
 
   # Lang and Encoding
   sed -i "s/#${INSTALL_LANG} ${INSTALL_ENC}/${INSTALL_LANG} ${INSTALL_ENC}/" /etc/locale.gen
   echo ${INSTALL_LANG} > /etc/locale.conf
   locale-gen > $LOG_FILE
 
-  # Keymaps
+  # Keymaps: TODO use var for nans user
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
+  su gdm -c $'sudo -u gdm dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
 
   # $HOME directories
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
@@ -77,6 +79,10 @@ function configure_desktop() {
 
   # Window
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'"
+
+  # System
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface show-battery-percentage true"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface clock-show-weekday true"
 }
 
 function configure_extensions() {
