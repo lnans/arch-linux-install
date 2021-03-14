@@ -75,7 +75,7 @@ printf "${COLOR_BOLD}# Configure boot${COLOR_NORMAL}\t"
 spinner configure_boot
 
 printf "${COLOR_BOLD}# Configure Desktop${COLOR_NORMAL}\t"
-spinner configure_wallpapers
+spinner configure_desktop
 
 printf "${COLOR_BOLD}# Configure Extensions${COLOR_NORMAL}\t"
 spinner configure_extensions

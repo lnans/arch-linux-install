@@ -5,7 +5,7 @@ function update() {
 }
 
 function install() {
-  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk curl bash-completion ttf-roboto ttf-roboto-mono &> $LOG_PKG_FILE
+  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk curl bash-completion ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -63,10 +63,16 @@ function enable_services() {
   systemctl enable gdm.service &> $LOG_FILE
 }
 
-function configure_wallpapers() {
+function configure_desktop() {
+  # Wallpapers
   cp -r ${DIR}/wallpapers /home/${USER_INSTALL}/Wallpapers
   chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/Wallpapers
-  su $USER_INSTALL -c "sudo -u nans dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/mountains.jpg'"
+
+  # Fonts
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/mountains.jpg'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface font-name 'Roboto 10'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface document-font-name 'Roboto 10'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface monospace-font-name 'Roboto Mono 10'"
 }
 
 function configure_extensions() {
@@ -77,5 +83,8 @@ function configure_extensions() {
     mkdir -p /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}
     unzip -q ${file} -d /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}/
     chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.local
+
+    # TODO: uncomment when configuration is OK
+    # su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gnome-extensions enable ${UUID}"
   done
 }
