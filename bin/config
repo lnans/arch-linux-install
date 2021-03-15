@@ -101,11 +101,11 @@ function configure_desktop() {
 
   # Desktop theme
   cd ${DIR}/themes/Orchis-theme
-  ./install.sh -t default
+  ./install.sh -t default > $LOG_FILE
   cd ${DIR}/themes/Tela-circle-icon-theme
-  ./install.sh -a
+  ./install.sh -a > $LOG_FILE
   cd ${DIR}/themes/Vimix-cursors
-  ./install.sh
+  ./install.sh > $LOG_FILE
 
   cd ${DIR}
 }
@@ -120,6 +120,6 @@ function configure_extensions() {
     chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.local
 
     # TODO: uncomment when configuration is OK
-    # su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gnome-extensions enable ${UUID}"
+    su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gnome-extensions enable ${UUID}"
   done
 }
