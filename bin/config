@@ -100,9 +100,14 @@ function configure_desktop() {
   cp -f ${DIR}/config/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 
   # Desktop theme
-  . ${DIR}/themes/Orchis-theme/install.sh -t default
-  . ${DIR}/themes/Tela-circle-icon-theme/install.sh -a
-  . ${DIR}/themes/Vimix-cursors/install.sh
+  cd ${DIR}/themes/Orchis-theme
+  ./install.sh -t default
+  cd ${DIR}/themes/Tela-circle-icon-theme
+  ./install.sh -a
+  cd ${DIR}/themes/Vimix-cursors
+  ./install.sh
+
+  cd ${DIR}
 }
 
 function configure_extensions() {
