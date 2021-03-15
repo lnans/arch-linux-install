@@ -95,6 +95,8 @@ function configure_desktop() {
   # System
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface show-battery-percentage true"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface clock-show-weekday true"
+
+  cp -f ${DIR}/config/gnome-shell-theme.gressource /usr/share/gnome-shell
 }
 
 function configure_extensions() {
