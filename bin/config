@@ -5,7 +5,16 @@ function update() {
 }
 
 function install() {
-  pacman -S --noconfirm --needed vim sudo grub efibootmgr dosfstools os-prober mtools networkmanager base-devel xorg xorg-server gdm gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell chrome-gnome-shell nautilus gnome-menus xdg-utils xdg-user-dirs-gtk curl bash-completion ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack &> $LOG_PKG_FILE
+  pacman -S --noconfirm --needed \
+  vim curl sudo bash-completion htop \
+  grub efibootmgr dosfstools os-prober mtools \
+  networkmanager \
+  base-devel \
+  xorg xorg-server \
+  gdm gnome-calculator gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
+  xdg-utils xdg-user-dirs-gtk \
+  ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
+  filezilla vlc &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -19,15 +28,15 @@ function configure_locales() {
   echo LANG=${INSTALL_LANG} > /etc/locale.conf
   locale-gen > $LOG_FILE
 
-  # Keymaps for tty and Desktop: TODO use var for nans user
+  # Keymaps for tty and Desktop
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
-  su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.input-sources sources \"[('xkb', 'fr+azerty')]\""
 
   # Keymaps for X11
   cp ${DIR}/config/00-keyboard.conf /etc/X11/xorg.conf.d
   chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
 
-  # $HOME directories
+  # Locales $HOME directories for $USER_INSTALL
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
 }
 
