@@ -24,9 +24,8 @@ function configure_locales() {
   su $USER_INSTALL -c $'sudo -u nans dbus-launch gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'fr+azerty\')]"'
 
   # Keymaps for X11
-  localectl set-locale ${INSTALL_LANG}
-  localectl set-keymap ${KBD_MAP}
-  localectl set-x11-keymap ${KBD_LAYOUT} pc104 ${KBD_VAR}
+  cp ${DIR}/config/00-keyboard.conf /etc/X11/xorg.conf.d
+  chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
 
   # $HOME directories
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
