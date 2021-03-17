@@ -14,7 +14,7 @@ function install() {
   gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
-  filezilla vlc alacritty &> $LOG_PKG_FILE
+  filezilla vlc alacritty code &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
