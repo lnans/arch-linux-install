@@ -11,10 +11,10 @@ function install() {
   networkmanager \
   base-devel \
   xorg xorg-server \
-  gdm gnome-calculator gnome-terminal gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
+  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
-  filezilla vlc &> $LOG_PKG_FILE
+  filezilla vlc alacritty &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -57,8 +57,11 @@ function configure_users() {
 
   # User profile
   cp -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
+  cp -f ${DIR}/config/.alacritty.yml /home/${USER_INSTALL}/.alacritty.yml
   chmod 644 /home/${USER_INSTALL}/.bashrc
+  chmod 644 /home/${USER_INSTALL}/.alacritty.yml
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
+  chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.alacritty.yml
 
   # Create accounts service for user
   cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
