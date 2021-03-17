@@ -56,12 +56,16 @@ function configure_users() {
   sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
 
   # User profile
+  mkdir -p /home/${USER_INSTALL}/.config/Code\ -\ OSS/User
   cp -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
   cp -f ${DIR}/config/.alacritty.yml /home/${USER_INSTALL}/.alacritty.yml
+  cp -f ${DIR}/config/code-config.json /home/${USER_INSTALL}/.config/Code\ -\ OSS/User/settings.json
   chmod 644 /home/${USER_INSTALL}/.bashrc
   chmod 644 /home/${USER_INSTALL}/.alacritty.yml
+  chmod 644 -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.alacritty.yml
+  chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
 
   # Create accounts service for user
   cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
