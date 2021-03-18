@@ -64,7 +64,7 @@ function configure_settings() {
   cp -f ${DIR}/config/code-config.json /home/${USER_INSTALL}/.config/Code\ -\ OSS/User/settings.json
   chmod 644 /home/${USER_INSTALL}/.bashrc
   chmod 644 /home/${USER_INSTALL}/.alacritty.yml
-  chmod 644 -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
+  chmod 755 -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.alacritty.yml
   chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
