@@ -109,7 +109,7 @@ function configure_desktop() {
   cp -f ${DIR}/config/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 
   # Desktop theme
-  cp ${DIR}/themes/Elegant /usr/share/themes/Elegant
+  cp -R ${DIR}/themes/Elegant /usr/share/themes/Elegant
 }
 
 function configure_extensions() {
