@@ -109,14 +109,7 @@ function configure_desktop() {
   cp -f ${DIR}/config/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 
   # Desktop theme
-  cd ${DIR}/themes/Orchis-theme
-  ./install.sh -t default > $LOG_FILE
-  cd ${DIR}/themes/Tela-circle-icon-theme
-  ./install.sh -a > $LOG_FILE
-  cd ${DIR}/themes/Vimix-cursors
-  ./install.sh > $LOG_FILE
-
-  cd ${DIR}
+  cp ${DIR}/themes/Elegant /usr/share/themes/Elegant
 }
 
 function configure_extensions() {
