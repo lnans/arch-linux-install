@@ -1523,10 +1523,15 @@ searchbar > revealer > box {
 }
 
 .titlebar.default-decoration button.titlebutton {
-  min-height: 24px;
-  min-width: 24px;
-  margin: 0;
+  min-width: 10px;
+  min-height: 10px;
   padding: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.titlebar.default-decoration button.titlebutton:backdrop{
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .background:not(.csd) .titlebar.default-decoration button.titlebutton:active {
@@ -7554,6 +7559,46 @@ window.background.csd.thunar > grid.horizontal > paned.horizontal > scrolledwind
 .nemo-window .nemo-window-pane widget.entry {
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.04);
+}
+
+/*
+  CUSTOM
+*/
+.titlebar .titlebutton {
+  min-width: 10px;
+  min-height: 10px;
+  padding: 0;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.titlebar .titlebutton.vertical {
+	min-width: 1px;
+}
+
+.titlebar .titlebutton:backdrop {
+	color: rgba(0, 0, 0, 0);
+}
+
+.titlebar .titlebutton.minimize:hover,
+.titlebar .titlebutton.maximize:hover,
+.titlebar .titlebutton.close:hover {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.titlebar .titlebutton.minimize {
+  background-color: #FFBD44;
+  color: #FFBD44;
+}
+
+.titlebar .titlebutton.maximize {
+  background-color: #00CA4E;
+  color: #00CA4E;
+}
+
+.titlebar .titlebutton.close {
+  background-color: #FF605C;
+  color: #FF605C;
 }
 
 .places-treeview {
