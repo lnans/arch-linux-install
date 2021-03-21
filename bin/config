@@ -6,7 +6,7 @@ function update() {
 
 function install() {
   pacman -S --noconfirm --needed \
-  vim curl sudo bash-completion htop \
+  vim curl sudo bash-completion htop nodejs npm yarn \
   grub efibootmgr dosfstools os-prober mtools \
   networkmanager \
   base-devel \
@@ -14,7 +14,7 @@ function install() {
   gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
-  filezilla vlc alacritty code &> $LOG_PKG_FILE
+  filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -110,6 +110,7 @@ function configure_desktop() {
 
   # Desktop theme
   cp -R ${DIR}/themes/Elegant /usr/share/themes/Elegant
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Elegant'"
 }
 
 function configure_extensions() {

@@ -7577,7 +7577,7 @@ window.background.csd.thunar > grid.horizontal > paned.horizontal > scrolledwind
 }
 
 .titlebar .titlebutton:backdrop {
-	color: rgba(0, 0, 0, 0);
+	color: rgba(0, 0, 0, 0.4);
 }
 
 .titlebar .titlebutton.minimize:hover,
