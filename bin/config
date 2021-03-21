@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function update() {
-  pacman -Syu --noconfirm &> $LOG_PKG_FILE
+  pacman -Syu --noconfirm &>> $LOG_PKG_FILE
 }
 
 function install() {
@@ -14,7 +14,7 @@ function install() {
   gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
-  filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &> $LOG_PKG_FILE
+  filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &>> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -26,7 +26,7 @@ function configure_locales() {
   # Lang and Encoding
   sed -i "s/#${INSTALL_LANG} ${INSTALL_ENC}/${INSTALL_LANG} ${INSTALL_ENC}/" /etc/locale.gen
   echo LANG=${INSTALL_LANG} > /etc/locale.conf
-  locale-gen > $LOG_FILE
+  locale-gen >> $LOG_FILE
 
   # Keymaps for tty and Desktop
   echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
@@ -49,11 +49,11 @@ function configure_host() {
 
 function configure_users() {
   # Create user and set passwords + sudoers
-  echo root:$ROOT_PWD | chpasswd > $LOG_FILE
-  useradd -m $USER_INSTALL > $LOG_FILE
-  echo $USER_INSTALL:$USER_PWD | chpasswd > $LOG_FILE
-  usermod -aG wheel,audio,video,optical,storage $USER_INSTALL > $LOG_FILE
-  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers > $LOG_FILE
+  echo root:$ROOT_PWD | chpasswd >> $LOG_FILE
+  useradd -m $USER_INSTALL >> $LOG_FILE
+  echo $USER_INSTALL:$USER_PWD | chpasswd >> $LOG_FILE
+  usermod -aG wheel,audio,video,optical,storage $USER_INSTALL >> $LOG_FILE
+  sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers >> $LOG_FILE
 }
 
 function configure_settings() {
@@ -70,20 +70,20 @@ function configure_settings() {
   chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
 
   # Create accounts service for user
-  cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
-  chmod 644 /var/lib/AccountsService/users/$USER_INSTALL > $LOG_FILE
+  cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL >> $LOG_FILE
+  chmod 644 /var/lib/AccountsService/users/$USER_INSTALL >> $LOG_FILE
 }
 
 function configure_boot() {
-  mkdir /boot/EFI &> $LOG_FILE
-  mount /dev/sda1 /boot/EFI &> $LOG_FILE
-  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck &> $LOG_FILE
-  grub-mkconfig -o /boot/grub/grub.cfg &> $LOG_FILE
+  mkdir /boot/EFI &>> $LOG_FILE
+  mount /dev/sda1 /boot/EFI &>> $LOG_FILE
+  grub-install --target=x86_64-efi --bootloader-id=grub_efi --recheck &>> $LOG_FILE
+  grub-mkconfig -o /boot/grub/grub.cfg &>> $LOG_FILE
 }
 
 function enable_services() {
-  systemctl enable NetworkManager &> $LOG_FILE
-  systemctl enable gdm.service &> $LOG_FILE
+  systemctl enable NetworkManager &>> $LOG_FILE
+  systemctl enable gdm.service &>> $LOG_FILE
 }
 
 function configure_desktop() {
@@ -114,10 +114,10 @@ function configure_desktop() {
 
   # Icon theme
   mkdir -p /home/${USER_INSTALL}/.install/icons
-  unzip ${DIR}/themes/Tela-circle-icon-theme.zip -d /home/${USER_INSTALL}/.install/icons &> $LOG_FILE
+  unzip ${DIR}/themes/Tela-circle-icon-theme.zip -d /home/${USER_INSTALL}/.install/icons &>> $LOG_FILE
   chmod 755 -R /home/${USER_INSTALL}/.install
   chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.install
-  su $USER_INSTALL -c "~/.install/icons/install.sh blue" &> $LOG_FILE
+  su $USER_INSTALL -c "~/.install/icons/install.sh blue" &>> $LOG_FILE
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-blue-dark'"
 
   # Clean install
