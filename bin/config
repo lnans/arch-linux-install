@@ -114,7 +114,7 @@ function configure_desktop() {
 
   # Icon theme
   cd ${DIR}/themes/Tela-circle-icon-theme
-  su $USER_INSTALL -x "./install.sh blue" &> $LOG_FILE
+  su $USER_INSTALL -c "echo ${ROOT_PWD} | sudo -S ./install.sh blue" &> $LOG_FILE
   cd ${DIR}
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-blue-dark'"
 }
