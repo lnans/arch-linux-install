@@ -99,7 +99,7 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.wm.preferences titlebar-font 'Roboto 10'"
 
   # Window
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'appmenu:minimize,maximize,close'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.wm.preferences button-layout 'close,minimize,maximize:appmenu'"
 
   # System
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface show-battery-percentage true"
@@ -109,8 +109,8 @@ function configure_desktop() {
   cp -f ${DIR}/config/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 
   # Desktop theme
-  cp -R ${DIR}/themes/Elegant /usr/share/themes/Elegant
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Elegant'"
+  cp -R ${DIR}/themes/Elegant /usr/share/themes/WhiteSur
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'WhiteSur'"
 
   # Icon theme
   cp -R ${DIR}/themes/Icons/* /usr/share/icons
