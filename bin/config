@@ -113,15 +113,8 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'Elegant'"
 
   # Icon theme
-  mkdir -p /home/${USER_INSTALL}/.install/icons
-  unzip ${DIR}/themes/Tela-circle-icon-theme.zip -d /home/${USER_INSTALL}/.install/icons &>> $LOG_FILE
-  chmod 755 -R /home/${USER_INSTALL}/.install
-  chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.install
-  su $USER_INSTALL -c "~/.install/icons/install.sh blue" &>> $LOG_FILE
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-circle-blue-dark'"
-
-  # Clean install
-  rm -rf /home/${USER_INSTALL}/.install
+  cp -R ${DIR}/themes/Icons/* /usr/share/icons
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-dark'"
 }
 
 function configure_extensions() {
