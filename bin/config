@@ -115,6 +115,12 @@ function configure_desktop() {
   # Icon theme
   cp -R ${DIR}/themes/Icons/* /usr/share/icons
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-dark'"
+
+  # Firefox theme
+  # Running firefox in headless mode for 5sec to initialize .mozilla directory
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} timeout 5 dbus-launch firefox-developer-edition --headless"
+  local FIREFOX_DIR=$(ls /home/${USER_INSTALL}/.mozilla/firefox | grep *.dev-edition-default)
+  cp -R ${DIR}/themes/Firefox/* /home/${USER_INSTALL}/.mozilla/firefox/${FIREFOX_DIR}
 }
 
 function configure_extensions() {
