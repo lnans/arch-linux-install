@@ -11,7 +11,7 @@ function install() {
   networkmanager \
   base-devel \
   xorg xorg-server \
-  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-menus eog \
+  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus eog gedit \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
   filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &>> $LOG_PKG_FILE
@@ -121,6 +121,13 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} timeout 7 dbus-launch firefox-developer-edition --headless" &>> $LOG_FILE
   local FIREFOX_DIR=$(ls /home/${USER_INSTALL}/.mozilla/firefox | grep .dev-edition-default)
   cp -R ${DIR}/themes/Firefox/* /home/${USER_INSTALL}/.mozilla/firefox/${FIREFOX_DIR}
+
+  # Favorites
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps ['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop', 'firefox-developer-edition.desktop']"
+
+  # Gedit theme
+  cp ${DIR}/config/gedit.xml /usr/share/gtksourceview-4/styles/custom.xml
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.gedit.preferences.editor scheme 'custom'"
 }
 
 function configure_extensions() {
