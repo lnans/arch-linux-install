@@ -124,7 +124,7 @@ function configure_desktop() {
   cp -R ${DIR}/themes/Firefox/* /home/${USER_INSTALL}/.mozilla/firefox/${FIREFOX_DIR}
 
   # Favorites
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps ['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop', 'firefox-developer-edition.desktop']"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop', 'firefox-developer-edition.desktop']\""
 
   # Gedit theme
   cp ${DIR}/config/gedit.xml /usr/share/gtksourceview-4/styles/custom.xml
