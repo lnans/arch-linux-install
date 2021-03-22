@@ -1531,7 +1531,7 @@ searchbar > revealer > box {
 }
 
 .titlebar.default-decoration button.titlebutton:backdrop{
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0);
 }
 
 .background:not(.csd) .titlebar.default-decoration button.titlebutton:active {
@@ -7577,7 +7577,7 @@ window.background.csd.thunar > grid.horizontal > paned.horizontal > scrolledwind
 }
 
 .titlebar .titlebutton:backdrop {
-	color: rgba(0, 0, 0, 0.4);
+	color: rgba(0, 0, 0, 0);
 }
 
 .titlebar .titlebutton.minimize:hover,
