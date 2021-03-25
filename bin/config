@@ -73,7 +73,7 @@ function configure_settings() {
   mkdir -p /var/lib/AccountsService/icons
   cp ${DIR}/themes/Gdm/user-account /var/lib/AccountsService/users/$USER_INSTALL
   cp ${DIR}/themes/Gdm/logo /var/lib/AccountsService/icons/${USER_INSTALL}
-  local LOGO="/var/lib/AccountsService/icons/$USER_INSTALL"
+  local LOGO="\/var\/lib\/AccountsService\/icons\/$USER_INSTALL"
   sed -i "s/Icon=.*/Icon=$LOGO/g" /var/lib/AccountsService/users/$USER_INSTALL
   chmod 644 /var/lib/AccountsService/users/$USER_INSTALL
   chmod 644 /var/lib/AccountsService/icons/$USER_INSTALL
