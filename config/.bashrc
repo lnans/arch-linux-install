@@ -77,6 +77,6 @@ export LANG=fr_FR.UTF-8
 export LANGUAGE=fr_FR.UTF-8
 
 # Aliases
-alias ll='ls -lGAvFh --color=auto --group-directories-first'
+alias ll='lss -lA --group-dirs first'
 alias gs="git status -sb"
 alias gl=$'git log --pretty=format:"%C(yellow)%h - %ad%Cred%d - %Creset%s%Cblue - [%cn]" --decorate --date=format:\'%d/%m/%Y %H:%M\' --graph'

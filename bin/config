@@ -6,14 +6,14 @@ function update() {
 
 function install() {
   pacman -S --noconfirm --needed \
-  vim curl sudo bash-completion htop nodejs npm yarn \
+  vim curl sudo bash-completion bpytop nodejs npm yarn lsd \
   grub efibootmgr dosfstools os-prober mtools \
   networkmanager \
   base-devel \
   xorg xorg-server \
   gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus eog gedit \
   xdg-utils xdg-user-dirs-gtk \
-  ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack \
+  ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono \
   filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &>> $LOG_PKG_FILE
 }
 
