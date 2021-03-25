@@ -70,8 +70,13 @@ function configure_settings() {
   chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
 
   # Create accounts service for user
-  cp ${DIR}/config/user-account /var/lib/AccountsService/users/$USER_INSTALL >> $LOG_FILE
-  chmod 644 /var/lib/AccountsService/users/$USER_INSTALL >> $LOG_FILE
+  mkdir -p /var/lib/AccountsService/icons
+  cp ${DIR}/themes/Gdm/user-account /var/lib/AccountsService/users/$USER_INSTALL
+  cp ${DIR}/themes/Gdm/logo /var/lib/AccountsService/icons/${USER_INSTALL}
+  local LOGO="/var/lib/AccountsService/icons/$USER_INSTALL"
+  sed -i "s/Icon=.*/Icon=$LOGO/g" /var/lib/AccountsService/users/$USER_INSTALL
+  chmod 644 /var/lib/AccountsService/users/$USER_INSTALL
+  chmod 644 /var/lib/AccountsService/icons/$USER_INSTALL
 }
 
 function configure_boot() {
@@ -108,7 +113,7 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface clock-show-weekday true"
 
   # Login screen theme
-  cp -f ${DIR}/config/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
+  cp -f ${DIR}/themes/Gdm/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
 
   # Desktop theme
   cp -R ${DIR}/themes/Elegant /usr/share/themes/Elegant
