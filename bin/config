@@ -6,7 +6,7 @@ function update() {
 
 function install() {
   pacman -S --noconfirm --needed \
-  vim curl sudo bash-completion bpytop nodejs npm yarn lsd \
+  vim curl sudo bash-completion bpytop nodejs npm yarn lsd ranger \
   grub efibootmgr dosfstools os-prober mtools \
   networkmanager \
   base-devel \
