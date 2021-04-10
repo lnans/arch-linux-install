@@ -80,8 +80,8 @@ spinner configure_boot
 printf "${COLOR_BOLD}# Configure Desktop${COLOR_NORMAL}\t"
 spinner configure_desktop
 
-printf "${COLOR_BOLD}# Configure Extensions${COLOR_NORMAL}\t"
-spinner configure_extensions
+#printf "${COLOR_BOLD}# Configure Extensions${COLOR_NORMAL}\t"
+#spinner configure_extensions
 
 printf "${COLOR_BOLD}# Configure Settings${COLOR_NORMAL}\t"
 spinner configure_settings
