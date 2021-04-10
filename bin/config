@@ -11,9 +11,9 @@ function install() {
   networkmanager \
   base-devel \
   xorg xorg-server \
-  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus eog gedit \
+  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus gnome-shell-extensions eog gedit \
   xdg-utils xdg-user-dirs-gtk \
-  ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono \
+  ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono ttf-liberation \
   filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &>> $LOG_PKG_FILE
 }
 
@@ -112,11 +112,7 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface show-battery-percentage true"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface clock-show-weekday true"
 
-  # Login screen theme
-  cp -f ${DIR}/themes/Gdm/gnome-shell-theme.gresource /usr/share/gnome-shell/gnome-shell-theme.gresource
-
   # Desktop theme
-  cp -R ${DIR}/themes/Elegant /usr/share/themes/Elegant
   cp -R ${DIR}/themes/WhiteSur /usr/share/themes/WhiteSur
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'WhiteSur'"
 
@@ -129,6 +125,7 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} timeout 8 dbus-launch firefox-developer-edition --headless" &>> $LOG_FILE
   local FIREFOX_DIR=$(ls /home/${USER_INSTALL}/.mozilla/firefox | grep .dev-edition-default)
   cp -R ${DIR}/themes/Firefox/* /home/${USER_INSTALL}/.mozilla/firefox/${FIREFOX_DIR}
+  chown -R $USER_INSTALL:$USER_INSTALL /home/${USER_INSTALL}/.mozilla
 
   # Favorites
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop', 'firefox-developer-edition.desktop']\""
