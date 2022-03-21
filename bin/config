@@ -6,15 +6,15 @@ function update() {
 
 function install() {
   pacman -S --noconfirm --needed \
-  vim curl sudo bash-completion htop nodejs npm yarn lsd ranger \
+  vim curl sudo bash-completion htop nodejs lsd \
   grub efibootmgr dosfstools os-prober mtools \
   networkmanager \
   base-devel \
   xorg xorg-server \
-  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus gnome-shell-extensions eog gedit \
+  gdm gnome-calculator gnome-control-center gnome-tweak-tool gnome-keyring gnome-shell nautilus gnome-calendar gnome-menus gnome-shell-extensions gnome-boxes gnome-terminal eog gedit \
   xdg-utils xdg-user-dirs-gtk \
   ttf-roboto ttf-roboto-mono ttf-cascadia-code ttf-hack ttf-nerd-fonts-symbols ttf-liberation \
-  filezilla vlc alacritty code firefox-developer-edition firefox-developer-edition-i18n-fr &>> $LOG_PKG_FILE
+  vlc code &>> $LOG_PKG_FILE
 }
 
 function configure_locales() {
@@ -29,12 +29,14 @@ function configure_locales() {
   locale-gen >> $LOG_FILE
 
   # Keymaps for tty and Desktop
-  echo 'KEYMAP=fr-latin1' > /etc/vconsole.conf
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.input-sources sources \"[('xkb', 'fr+azerty')]\""
+  echo "KEYMAP=${KBD_MAP}" > /etc/vconsole.conf
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.input-sources sources \"[('xkb', '${KBD_LAYOUT}+${KBD_VAR}')]\""
 
   # Keymaps for X11
   cp ${DIR}/config/00-keyboard.conf /etc/X11/xorg.conf.d
   chmod 644 /etc/X11/xorg.conf.d/00-keyboard.conf
+  sed -i "s/#KBD_LAYOUT/${KBD_LAYOUT}/g" /etc/X11/xorg.conf.d/00-keyboard.conf
+  sed -i "s/#KBD_VAR/${KBD_VAR}/g" /etc/X11/xorg.conf.d/00-keyboard.conf
 
   # Locales $HOME directories for $USER_INSTALL
   su $USER_INSTALL -c "LANG=${INSTALL_LANG} xdg-user-dirs-update"
@@ -58,16 +60,10 @@ function configure_users() {
 
 function configure_settings() {
   # User profile
-  mkdir -p /home/${USER_INSTALL}/.config/Code\ -\ OSS/User
   cp -f ${DIR}/config/.bashrc /home/${USER_INSTALL}/.bashrc
-  cp -f ${DIR}/config/.alacritty.yml /home/${USER_INSTALL}/.alacritty.yml
-  cp -f ${DIR}/config/code-config.json /home/${USER_INSTALL}/.config/Code\ -\ OSS/User/settings.json
+  sed -i "s/#INSTALL_LANG/${INSTALL_LANG}/g" /home/${USER_INSTALL}/.bashrc
   chmod 644 /home/${USER_INSTALL}/.bashrc
-  chmod 644 /home/${USER_INSTALL}/.alacritty.yml
-  chmod 755 -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
   chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.bashrc
-  chown ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.alacritty.yml
-  chown ${USER_INSTALL}:${USER_INSTALL} -R /home/${USER_INSTALL}/.config/Code\ -\ OSS
 
   # Create accounts service for user
   mkdir -p /var/lib/AccountsService/icons
@@ -99,7 +95,7 @@ function configure_desktop() {
   chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/Wallpapers
 
   # Fonts
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/Mascaloona.jpg'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/sunset.jpg'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface font-name 'Roboto 10'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface document-font-name 'Roboto 10'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface monospace-font-name 'Roboto Mono 10'"
@@ -112,46 +108,16 @@ function configure_desktop() {
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface show-battery-percentage true"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface clock-show-weekday true"
 
-  # Desktop theme
-  cp -R ${DIR}/themes/WhiteSur-dark /usr/share/themes/WhiteSur-dark
-  cp -R ${DIR}/themes/WhiteSur-light /usr/share/themes/WhiteSur-light
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface gtk-theme 'WhiteSur-dark'"
-
   # Icon theme
   cp -R ${DIR}/themes/Icons/* /usr/share/icons
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Tela-dark'"
 
-  # Firefox theme
-  # Running firefox in headless mode for 5sec to initialize .mozilla directory
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} timeout 8 dbus-launch firefox-developer-edition --headless" &>> $LOG_FILE
-  local FIREFOX_DIR=$(ls /home/${USER_INSTALL}/.mozilla/firefox | grep .dev-edition-default)
-  cp -R ${DIR}/themes/Firefox/* /home/${USER_INSTALL}/.mozilla/firefox/${FIREFOX_DIR}
-  chown -R $USER_INSTALL:$USER_INSTALL /home/${USER_INSTALL}/.mozilla
-
   # Favorites
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'Alacritty.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop', 'firefox-developer-edition.desktop']\""
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.shell favorite-apps \"['org.gnome.Nautilus.desktop', 'org.gnome.gedit.desktop', 'code-oss.desktop']\""
 
   # Nautilus
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.nautilus.list-view default-visible-columns \"['name', 'size', 'type', 'permissions', 'date_modified', 'starred']\""
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.nautilus.list-view default-zoom-level 'small'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.nautilus.list-view use-tree-view true"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.nautilus.preferences default-sort-order 'type'"
-
-  # Gedit theme
-  cp ${DIR}/config/gedit.xml /usr/share/gtksourceview-4/styles/custom.xml
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.gedit.preferences.editor scheme 'custom'"
-}
-
-function configure_extensions() {
-  local FILES=${DIR}/extensions/*.zip
-  for file in $FILES
-  do
-    UUID=$(unzip -c $file metadata.json | grep uuid | cut -d \" -f4)
-    mkdir -p /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}
-    unzip -q ${file} -d /home/${USER_INSTALL}/.local/share/gnome-shell/extensions/${UUID}/
-    chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/.local
-
-    # TODO: uncomment when configuration is OK
-    su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gnome-extensions enable ${UUID}"
-  done
 }

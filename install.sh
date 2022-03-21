@@ -7,8 +7,8 @@ export KBD_MAP='fr-latin1'
 export KBD_LAYOUT='fr'
 export KBD_VAR='azerty'
 export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-export LOG_FILE=$DIR/install.log
-export LOG_PKG_FILE=$DIR/install.packages.log
+export LOG_FILE=~/install.log
+export LOG_PKG_FILE=~/install.packages.log
 export COLOR_NORMAL='\033[0m'
 export COLOR_BOLD='\033[1m'
 export COLOR_GREEN='\033[1;32m'
@@ -52,6 +52,7 @@ export ROOT_PWD_VERIF
 
 # Root profile
 cp -f ${DIR}/config/.bashrc ~/.bashrc
+sed -i "s/#INSTALL_LANG/${INSTALL_LANG}/g" ~/.bashrc
 source ~/.bashrc
 
 # Start installation
@@ -79,9 +80,6 @@ spinner configure_boot
 
 printf "${COLOR_BOLD}# Configure Desktop${COLOR_NORMAL}\t"
 spinner configure_desktop
-
-#printf "${COLOR_BOLD}# Configure Extensions${COLOR_NORMAL}\t"
-#spinner configure_extensions
 
 printf "${COLOR_BOLD}# Configure Settings${COLOR_NORMAL}\t"
 spinner configure_settings
