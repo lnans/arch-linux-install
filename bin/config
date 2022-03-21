@@ -95,7 +95,7 @@ function configure_desktop() {
   chown -R ${USER_INSTALL}:${USER_INSTALL} /home/${USER_INSTALL}/Wallpapers
 
   # Fonts
-  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/Mascaloona.jpg'"
+  su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.background picture-uri 'file:///home/${USER_INSTALL}/Wallpapers/sunset.jpg'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface font-name 'Roboto 10'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface document-font-name 'Roboto 10'"
   su $USER_INSTALL -c "sudo -u ${USER_INSTALL} dbus-launch gsettings set org.gnome.desktop.interface monospace-font-name 'Roboto Mono 10'"
